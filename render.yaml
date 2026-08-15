@@ -1,4 +1,5 @@
 services:
+  # FastAPI
   - type: web
     name: fastapi-car-price-api
     env: docker
@@ -9,3 +10,16 @@ services:
     envVars:
       - key: MODEL_PATH
         value: app/models/model.joblib
+
+  # Streamlit
+  - type: web
+    name: car-price-streamlit
+    env: python
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run streamlit_app.py --server.address 0.0.0.0 --server.port $PORT
+    envVars:
+      - key: API_URL
+        value: https://car-price-prediction-bphu.onrender.com
